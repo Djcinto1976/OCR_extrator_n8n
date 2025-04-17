@@ -1,5 +1,8 @@
-google-api-python-client
-google-auth
-google-auth-httplib2
-google-auth-oauthlib
-requests
+google-auth>=2.28.0
+google-auth-httplib2>=0.2.0
+google-api-python-client>=2.126.0
+requests>=2.31.0
+PyMuPDF>=1.23.16
+openai>=1.16.0
+pytesseract
+pdf2image
