@@ -1,3 +1,16 @@
+
+from zerox import ZeroxDocument
+
+def extrair_dados_zerox(binario_pdf):
+    try:
+        document = ZeroxDocument(file=binario_pdf, filetype="pdf")
+        resultado = document.extract()
+        return resultado.to_dict()
+    except Exception as e:
+        print("[ERRO] ao extrair com Zerox:", e)
+        return None
+
+
 import os
 import time
 import json
@@ -44,7 +57,7 @@ def baixar_arquivo(service, file_id):
 def gerar_hash_conteudo(conteudo: bytes) -> str:
     return hashlib.sha256(conteudo).hexdigest()
 
-def extrair_texto_pdf(binario_pdf: bytes) -> str:
+# def extrair_texto_pdf(binario_pdf: bytes) -> str:
     texto = ""
     with fitz.open(stream=binario_pdf, filetype="pdf") as doc:
         for page in doc:
@@ -56,13 +69,7 @@ def extrair_texto_pdf(binario_pdf: bytes) -> str:
     print("[OCR] Nenhum texto extraído via PyMuPDF. Aplicando OCR com pytesseract...")
     imagens = convert_from_bytes(binario_pdf)
     texto_ocr = ""
-    from PIL import Image, ImageEnhance, ImageFilter
-
     for i, imagem in enumerate(imagens):
-        imagem = imagem.convert("L")  # Converte para tons de cinza
-        imagem = imagem.filter(ImageFilter.SHARPEN)  # Aplica nitidez
-        enhancer = ImageEnhance.Contrast(imagem)
-        imagem = enhancer.enhance(2.0)  # Aumenta contraste
         texto_ocr += f"\n--- Página {i+1} ---\n"
         texto_ocr += pytesseract.image_to_string(imagem, lang='por')
     return texto_ocr.strip()

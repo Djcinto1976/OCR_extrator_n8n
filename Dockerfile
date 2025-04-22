@@ -9,8 +9,9 @@ COPY . .
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     poppler-utils \
-    git \
-    ca-certificates \
+    libgl1 \
+    libglib2.0-0 \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Instala as dependências do Python
