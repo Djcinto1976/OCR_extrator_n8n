@@ -1,5 +1,6 @@
 
-from zerox import ZeroxDocument
+from py_zerox import ZeroxDocument
+
 
 def extrair_dados_zerox(binario_pdf):
     try:
@@ -24,6 +25,8 @@ from pdf2image import convert_from_bytes
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
+
+
 
 # Configurações
 SCOPES = ['https://www.googleapis.com/auth/drive']
