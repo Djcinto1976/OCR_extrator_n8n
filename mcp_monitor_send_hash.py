@@ -56,7 +56,13 @@ def extrair_texto_pdf(binario_pdf: bytes) -> str:
     print("[OCR] Nenhum texto extraído via PyMuPDF. Aplicando OCR com pytesseract...")
     imagens = convert_from_bytes(binario_pdf)
     texto_ocr = ""
+    from PIL import Image, ImageEnhance, ImageFilter
+
     for i, imagem in enumerate(imagens):
+        imagem = imagem.convert("L")  # Converte para tons de cinza
+        imagem = imagem.filter(ImageFilter.SHARPEN)  # Aplica nitidez
+        enhancer = ImageEnhance.Contrast(imagem)
+        imagem = enhancer.enhance(2.0)  # Aumenta contraste
         texto_ocr += f"\n--- Página {i+1} ---\n"
         texto_ocr += pytesseract.image_to_string(imagem, lang='por')
     return texto_ocr.strip()
