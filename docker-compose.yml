@@ -1,16 +1,23 @@
 version: "3.8"
 
 services:
-  ocr_extrator:
-    container_name: ocr_extrator_n8n
-    image: ocr_extrator_n8n:latest
+  monitor_gdrive:
+    container_name: monitor_gdrive
     build:
       context: .
-    ports:
-      - "8000:8000"
+    image: monitor_gdrive:latest
     environment:
       - TZ=America/Sao_Paulo
+    env_file:
+      - .env
     volumes:
-      - .:/app
+      - ./credentials.json:/app/credentials.json  # Monta o arquivo de credenciais dentro do contêiner
     working_dir: /app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: python mcp_monitor_send_hash.py
+    restart: unless-stopped
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    external: true
