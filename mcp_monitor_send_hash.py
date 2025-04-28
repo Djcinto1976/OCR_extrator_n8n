@@ -1,17 +1,4 @@
 
-from py_zerox import ZeroxDocument
-
-
-def extrair_dados_zerox(binario_pdf):
-    try:
-        document = ZeroxDocument(file=binario_pdf, filetype="pdf")
-        resultado = document.extract()
-        return resultado.to_dict()
-    except Exception as e:
-        print("[ERRO] ao extrair com Zerox:", e)
-        return None
-
-
 import os
 import time
 import json
